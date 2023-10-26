@@ -1,0 +1,47 @@
+.box {
+    display: flex;
+    flex-direction: row;
+
+    margin-top: 180px;
+}
+
+.card_box {
+    height: 250px;
+    width: 250px;
+
+    border: 1px solid red;
+    margin-left: 90px;
+
+    padding: 10px;
+}
+
+.card_box--title-text {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+.card_box--subtitle-text {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 15px;
+    text-align: center;
+}
+
+.card_box--connection-card {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    border: none;
+    background-color: white;
+    color: red;
+
+    
+    margin-left: 90px;
+    margin-top: 40px;
+}
+
+.card_box--button-card:hover {
+    color: green;
+}
+

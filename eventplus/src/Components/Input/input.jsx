@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const input = ({ type, placeholder, name, id }) => {
+const Input = ({ onchange, type, placeholder, name, id, value }) => {
     // const {numero1, SetNumero1} = useState();//Dado do componente
     
     return (
@@ -13,9 +13,9 @@ const input = ({ type, placeholder, name, id }) => {
             value={value}
             onChange={onchange}
             />
-            <span>{numero1}</span>
+            <span>{value}</span>
         </>
     );
 };
 
-export default input;
+export default Input;

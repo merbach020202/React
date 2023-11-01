@@ -1,8 +1,8 @@
 import React from 'react';
 import Header from '../../Components/Header/Header';
-import './Home.css'
+import './HomePage.css'
 
-const Home = () => {
+const HomePage = () => {
     return (
         <div>
             <Header />
@@ -11,4 +11,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default HomePage;

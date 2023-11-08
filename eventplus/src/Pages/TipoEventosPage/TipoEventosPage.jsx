@@ -1,11 +1,16 @@
 import React from "react";
 import "./TipoEventosPage.css"
+import Title from '../../Components/Titulo/Title';
 
 
 const TipoEventosPage = () => {
     return (
         <div>
-            <h1>Tipo Eventos Page</h1>
+            <Title 
+            titleText="Tipo Eventos Page"
+            color="green"
+            potatoClass='margem-acima'
+            />
         </div>
     );
 };

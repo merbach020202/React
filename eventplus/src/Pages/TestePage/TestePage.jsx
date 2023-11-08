@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "../../Components/Botão/Button";
 import Input from "../../Components/Input/Input";
+import Title from "../../Components/Titulo/Title";
 
 //Variáveis do componente
 const TestePage = () => {
@@ -15,6 +16,11 @@ const TestePage = () => {
 
     return (
         <div>
+            <Title 
+                titleText="Testes Page"
+                potatoClass='margem-acima'
+                />
+
             <h1>Pagina de Poc`s</h1>
             <h2>Calculator</h2>
 

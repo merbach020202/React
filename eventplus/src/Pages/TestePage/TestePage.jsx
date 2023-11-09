@@ -14,6 +14,8 @@ const TestePage = () => {
         setTotal(parseFloat(n1) + parseFloat(n2));
     }
 
+    
+
     return (
         <div>
             <Title 

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react"; //Import do React porque trabalha com jsx
 import "./HomePage.css";
+import api from "../../Services/Service";
+import { nextEventResource } from "../../Services/Service";
 
 import Banner from "../../Components/Banner/Banner";
 import MainContent from "../../Components/MainContent/MainContent";
@@ -12,13 +14,12 @@ import axios from "axios";
 
 const HomePage = () => {
     const [nextEvents, setNextEvents] = useState([]) 
-    const urlLocal = 'https://localhost:7118/api'
     
     //Roda somente na inicialização do componente
     useEffect(() => {
         async function getNextEvents() {
             try {
-                const promisse = await axios.get(`${urlLocal}/Evento`)
+                const promisse = await api.get(nextEventResource)
                 const dados = await promisse.data
 
                 setNextEvents(dados)//atualiza o status
@@ -50,6 +51,7 @@ const HomePage = () => {
                                     eventDate={e.dataEvento}
                                     title={e.nomeEvento}
                                     description={e.descricao}
+                                    idEvent={e.idEvento}
                                 />
                                 )
                                 })

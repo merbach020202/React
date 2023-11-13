@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react"; //Import do React porque trabalha com jsx
 import "./HomePage.css";
-import api from "../../Services/Service";
-import { nextEventResource } from "../../Services/Service";
 
 import Banner from "../../Components/Banner/Banner";
 import MainContent from "../../Components/MainContent/MainContent";
@@ -10,16 +8,21 @@ import ContactSection from "../../Components/ContactSection/ContactSection";
 import Title from "../../Components/Titulo/Title";
 import NextEvent from "../../Components/NextEvent/NextEvent";
 import Container from "../../Components/Container/Container";
-import axios from "axios";
+
+import api from "../../Services/Service";
+
+import { nextEventResource } from "../../Services/Service";
+
 
 const HomePage = () => {
+
     const [nextEvents, setNextEvents] = useState([]) 
     
     //Roda somente na inicialização do componente
     useEffect(() => {
         async function getNextEvents() {
             try {
-                const promisse = await api.get(nextEventResource)
+                const promisse = await api.get(`${nextEventResource}`)
                 const dados = await promisse.data
 
                 setNextEvents(dados)//atualiza o status

@@ -1,15 +1,15 @@
 import React from 'react';
 import './FormComponents.css'
 
-export const Input = ( {
+export const Input = ({
     type,
     id,
     value,
     required,
-    additionalClass,
     name,
     placeholder,
-    manipulationFunction
+    manipulationFunction,
+    additionalClass = ""
 
 } ) => {
     return (
@@ -30,13 +30,13 @@ export const Label = ( {htmlFor, labelText} ) => {
     return <label htmlFor={htmlFor}>{labelText}</label>
 }
 
-export const Button= ( props ) => {
+export const Button= (props) => {
     return (
         <button 
             id={props.id}
             name={props.name}
             type={props.type}
-            className={props.additionalClass}
+            className={`button-component ${props.additionalClass}`}
             onClick={props.manipulationFunction}
         >
             {props.textButton}

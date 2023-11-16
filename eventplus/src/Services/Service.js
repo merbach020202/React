@@ -4,8 +4,10 @@ import axios from 'axios'
 
 
 export const eventsResource = '/Evento'
+
 export const nextEventResource = '/Evento/ListarProximos'
-export const eventsTypeResource = '/TipoEvento'
+
+export const eventsTypeResource = '/TiposEvento'
 
 // export const eventsTypeResource
 

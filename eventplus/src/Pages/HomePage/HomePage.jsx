@@ -8,8 +8,8 @@ import ContactSection from "../../Components/ContactSection/ContactSection";
 import Title from "../../Components/Titulo/Title";
 import NextEvent from "../../Components/NextEvent/NextEvent";
 import Container from "../../Components/Container/Container";
-
 import api from "../../Services/Service";
+import Notification from "../../Components/Notification/Notification";
 
 import { nextEventResource } from "../../Services/Service";
 
@@ -17,6 +17,7 @@ import { nextEventResource } from "../../Services/Service";
 const HomePage = () => {
 
     const [nextEvents, setNextEvents] = useState([]) 
+    const [notifyUser, setNotifyUser,] = useState()
     
     //Roda somente na inicialização do componente
     useEffect(() => {
@@ -24,7 +25,7 @@ const HomePage = () => {
             try {
                 const promisse = await api.get(`${nextEventResource}`)
                 const dados = await promisse.data
-
+                console.log(dados);
                 setNextEvents(dados)//atualiza o status
                 
             } catch (error) {
@@ -37,6 +38,7 @@ const HomePage = () => {
     }, [])
     return (
             <MainContent>
+                {<Notification {...notifyUser} setNotifyUser={setNotifyUser}/>}
 
                 <Banner />
                 <section className="proximos-eventos">

@@ -217,7 +217,7 @@ const TipoEventosPage = () => {
 
                                         <Button
                                             textButton="Cadastrar"
-                                            id="cadstrar"
+                                            id="cadastrar"
                                             name="cadastrar"
                                             type="submit"
                                         />

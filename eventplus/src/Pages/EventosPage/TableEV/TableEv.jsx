@@ -1,5 +1,5 @@
 import React from "react";
-import "./TableTp.css";
+import "./TableEv.css"
 import editPen from '../../../Assets/images/edit-pen.svg'
 import trashDelete from '../../../Assets/images/trash-delete.svg'
 
@@ -10,7 +10,16 @@ const TableEv = ( {dados, fnDelete = null, fnUpdate = null} ) => {
             <thead className="table-data__head">
                 <tr className="table-data__head-row">
                     <th className="table-data__head-title table-data__head-title--big">
-                        Título
+                        Evento
+                    </th>
+                    <th className="table-data__head-title table-data__head-title--big">
+                        Descrição
+                    </th>
+                    <th className="table-data__head-title table-data__head-title--big">
+                        Tipo Evento
+                    </th>
+                    <th className="table-data__head-title table-data__head-title--big">
+                        Data
                     </th>
                     <th className="table-data__head-title table-data__head-title--little">
                         Editar

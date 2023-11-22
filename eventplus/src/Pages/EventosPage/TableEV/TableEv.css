@@ -1,15 +1,15 @@
 /* Smartphone */
 @font-face {
     font-family: Poppins-Thin;
-    src: url(../../Assets/Poppins/Poppins-Thin.ttf);
+    src: url(../../../Assets/Poppins/Poppins-Thin.ttf);
   }
   @font-face {
     font-family: Poppins-Semibold;
-    src: url(../../Assets/Poppins/Poppins-SemiBold.ttf);
+    src: url(../../../Assets/Poppins/Poppins-SemiBold.ttf);
   }
   @font-face {
     font-family: Poppins-Regular;
-    src: url(../../Assets/Poppins/Poppins-Regular.ttf);
+    src: url(../../../Assets/Poppins/Poppins-Regular.ttf);
   }
   
   /* Custommizations */

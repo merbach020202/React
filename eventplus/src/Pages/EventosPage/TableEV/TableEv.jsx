@@ -3,12 +3,15 @@ import "./TableEv.css"
 import editPen from '../../../Assets/images/edit-pen.svg'
 import trashDelete from '../../../Assets/images/trash-delete.svg'
 
-const TableEv = ( {dados, fnDelete = null, fnUpdate = null} ) => {
+const TableEv = ( {dados, data, descricao, fnDelete = null, fnUpdate = null} ) => {
     return (
         <table className="table-data">
             {/* {cabeçalho} */}
             <thead className="table-data__head">
                 <tr className="table-data__head-row">
+                    <th className="table-data__head-title table-data__head-title--big">
+                        Instituição
+                    </th>
                     <th className="table-data__head-title table-data__head-title--big">
                         Evento
                     </th>
@@ -36,6 +39,18 @@ const TableEv = ( {dados, fnDelete = null, fnUpdate = null} ) => {
                         <tr className="table-data__head-row" key={tp.idTipoEvento}>
                     <td className="table-data__data table-data__data--big">
                         {tp.titulo}
+                    </td>
+                    <td className="table-data__data table-data__data--big">
+                        {tp.titulo}
+                    </td>
+                    <td className="table-data__data table-data__data--big">
+                        {tp.descricao}
+                    </td>
+                    <td className="table-data__data table-data__data--big">
+                        {tp.titulo}
+                    </td>
+                    <td className="table-data__data table-data__data--big">
+                        {tp.data}
                     </td>
 
                     <td className="table-data__data table-data__data--little">

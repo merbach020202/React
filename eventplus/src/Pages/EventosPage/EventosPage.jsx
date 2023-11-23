@@ -6,7 +6,7 @@ import ImageIllustrator from "../../Components/ImageIllustrator/ImageIllustrator
 import { Input, Button } from "../../Components/FormComponents/FormComponents";
 import Container from "../../Components/Container/Container";
 import EventoImage from "../../Assets/images/evento.svg";
-import api, { eventsTypeResource } from "../../Services/Service";
+import api, { eventsTypeResource, eventsResource } from "../../Services/Service";
 import Notification from "../../Components/Notification/Notification";
 import Spinner from "../../Components/Spinner/Spinner";
 import TableEv from "./TableEv/TableEv";
@@ -15,24 +15,51 @@ import { Select } from "../../Components/FormComponents/FormComponents";
 const EventosPage = () => {
     //States
     const [frmEdit, setFrmEdit] = useState(false); //Está em modo de edição?
-    const [nome, setNome] = useState("");
-    const [titulo, setTitulo] = useState("")
+
+    const [nomeEvento, setNomeEvento] = useState("");
+    const [titulo, setTitulo] = useState("");
     const [descricao, setDescricao] = useState("");
-    const [tipoEvento, setTipoEvento] = useState([]);
-    const [data, setData] = useState("");
+    const [tiposEvento, setTiposEvento] = useState([]);
+    const [dataEvento, setDataEvento] = useState("");
+    const [nomeFantasia, setNomeFantasia] = useState([]);
+
     const [idEvento, setIdEvento] = useState(null); //para editar, por causa do evento!
     const [Eventos, setEventos] = useState([]); //array
     const [notifyUser, setNotifyUser] = useState(); //Componente Notification
     const [showSpinner, setShowSpinner] = useState(false); //Spinner Loading
+
+    function dePara(arrayEventos) {
+        const arrDePara = [
+            {
+                value: "",
+                text: " Selecione",
+            }
+        ];
+
+        arrayEventos.foreach((evento) => {
+            arrDePara.push({
+                value: evento.idTipoEvento,
+                text: evento.titulo,
+            });
+        });
+        
+        return arrDePara;
+    }
 
     //O useEffect só é usado quando a página já está
     useEffect(() => {
         async function loadEventsType() {
             setShowSpinner(true);
             try {
-                const retorno = await api.get(eventsTypeResource);
+                const retornoTiposEventos = await api.get(eventsTypeResource);
+                console.log(retornoTiposEventos.data);
+            //    setTiposEvento(dePara(retornoTiposEventos.data));
+
+               
+
+                const retorno = await api.get(eventsResource);
                 setEventos(retorno.data);
-                console.log(retorno.data);
+                
             } catch (error) {
                 console.log("Erro na Api");
                 console.log(error);
@@ -48,7 +75,7 @@ const EventosPage = () => {
         e.preventDefault();
 
         setShowSpinner(true);
-        if (nome.trim().length < 3) {
+        if (titulo.trim().length < 3) {
             setNotifyUser({
                 titleNote: "Aviso",
                 textNote: "O título deve ter pelo menos 3 caracteres",
@@ -60,7 +87,11 @@ const EventosPage = () => {
 
         try {
             const retorno = await api.post(eventsTypeResource, {
-                titulo: titulo,
+                tiposEvento: tiposEvento,
+                dataEvento: dataEvento,
+                nomeEvento: nomeEvento,
+                descricao: descricao,
+                nomeFantasia: nomeFantasia,
             });
 
             setNotifyUser({
@@ -71,10 +102,11 @@ const EventosPage = () => {
                 showMessage: true,
             });
 
-            setNome("");
+            setTitulo("");
 
             const buscaEventos = await api.get(eventsTypeResource);
-            setEventos(buscaEventos.data);
+
+            setTiposEvento(buscaEventos.data);
 
             // console.log(retorno);
         } catch (error) {
@@ -98,7 +130,7 @@ const EventosPage = () => {
         setShowSpinner(true);
         try {
             const retorno = await api.get(`${eventsTypeResource}/${idElement}`);
-            setNome(retorno.data.nome);
+            setTitulo(retorno.data.titulo);
             console.log(retorno.data);
         } catch (error) {
             alert("ShowUpdateForm");
@@ -109,7 +141,7 @@ const EventosPage = () => {
     ////////////cancela a tela/ação de edição (volta parao form de cadastro)
     function editActionAbort() {
         setFrmEdit(false);
-        setNome("");
+        setTitulo("");
         setIdEvento(null);
     }
 
@@ -120,11 +152,11 @@ const EventosPage = () => {
         setShowSpinner(true);
         try {
             const retorno = await api.put(eventsTypeResource + "/" + idEvento, {
-                nome: nome,
+                titulo: titulo,
             });
             //notificar o usuário
             if (retorno.status == 204) {
-                setNome("");
+                setTitulo("");
                 setIdEvento("");
 
                 setNotifyUser({
@@ -137,7 +169,7 @@ const EventosPage = () => {
 
                 //atualizar os dados na tela
                 const retorno = await api.get(eventsTypeResource);
-                setEventos(retorno.data);
+                setTiposEvento(retorno.data);
             }
         } catch (error) {
             //notificar o erro ao usuário
@@ -175,7 +207,7 @@ const EventosPage = () => {
 
                     const buscaEventos = await api.get(eventsTypeResource);
 
-                    setEventos(buscaEventos.data);
+                    setTiposEvento(buscaEventos.data);
                 }
             } catch (error) {
                 alert(`Não deu certo`);
@@ -212,9 +244,9 @@ const EventosPage = () => {
                                             name={"NomeEvento"}
                                             type={"text"}
                                             required={"required"}
-                                            value={nome}
+                                            value={nomeEvento}
                                             manipulationFunction={(e) => {
-                                                setNome(e.target.value);
+                                                setNomeEvento(e.target.value);
                                             }}
                                         />
 
@@ -230,36 +262,27 @@ const EventosPage = () => {
                                             }}
                                         />
 
-                                        {/* <Input
+                                        <Input
                                             id="Tipo Evento"
                                             placeholder="Tipo Evento"
-                                            name={"IdTipoEvento"}
+                                            name={"IdtiposEvento"}
                                             type={"text"}
                                             required={"required"}
-                                            value={tipoEvento}
+                                            value={tiposEvento}
                                             manipulationFunction={(e) => {
-                                                setTipoEvento(e.target.value);
+                                                setTiposEvento(e.target.value);
                                             }}
-                                        /> */}
+                                        />
 
-                                    <Select
-                                        id="Tipo Evento"
-                                        name="Tipo Evento"
-                                        required
-                                        options={[
-                                            {
-                                                value: "",
-                                                text: "Tipo de Evento",
-                                            },
-                                            ...tipoEvento.map((evento) => ({
-                                                value: evento.id,
-                                                text: evento.titulo,
-                                            })),
-                                        ]}
-                                        manipulationFunction={(e) =>
-                                            setTipoEvento(e.target.value)
-                                        }
-                                    />
+                                        {/* <Select
+                                            id="Tipo Evento"
+                                            name="Tipo Evento"
+                                            required
+                                            options={tiposEvento}
+                                            manipulationFunction={(e) =>
+                                                setTiposEvento(e.target.value)
+                                            }
+                                        /> */}
 
                                         <Input
                                             id="Data"
@@ -267,9 +290,9 @@ const EventosPage = () => {
                                             name={"DataEvento"}
                                             type={"date"}
                                             required={"required"}
-                                            value={data}
+                                            value={dataEvento}
                                             manipulationFunction={(e) => {
-                                                setData(e.target.value);
+                                                setDataEvento(e.target.value);
                                             }}
                                         />
 
@@ -289,9 +312,9 @@ const EventosPage = () => {
                                             name={"NomeEvento"}
                                             type={"text"}
                                             required={"required"}
-                                            value={nome}
+                                            value={nomeEvento}
                                             manipulationFunction={(e) => {
-                                                setEventos(e.target.value);
+                                                setNomeEvento(e.target.value);
                                             }}
                                         />
 
@@ -307,16 +330,15 @@ const EventosPage = () => {
                                             }}
                                         />
 
-
                                         <Input
-                                            id="TipoEvento"
+                                            id="tiposEvento"
                                             placeholder="Tipo Evento"
-                                            name={"TipoEvento"}
+                                            name={"tiposEvento"}
                                             type={"text"}
                                             required={"required"}
-                                            value={tipoEvento}
+                                            value={tiposEvento}
                                             manipulationFunction={(e) => {
-                                                setTipoEvento(e.target.value);
+                                                setTiposEvento(e.target.value);
                                             }}
                                         />
 
@@ -326,9 +348,9 @@ const EventosPage = () => {
                                             name={"Titulo"}
                                             type={"DateTime"}
                                             required={"required"}
-                                            value={data}
+                                            value={dataEvento}
                                             manipulationFunction={(e) => {
-                                                setData(e.target.value);
+                                                setDataEvento(e.target.value);
                                             }}
                                         />
 
@@ -365,6 +387,8 @@ const EventosPage = () => {
 
                         <TableEv
                             dados={Eventos}
+                            data={dataEvento}
+                            descricao={descricao}
                             fnUpdate={showUpdateForm}
                             fnDelete={handleDelete}
                         />

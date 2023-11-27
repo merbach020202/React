@@ -1,9 +1,10 @@
 import React from "react";
 import "./TableEv.css"
-import editPen from '../../../Assets/images/edit-pen.svg'
-import trashDelete from '../../../Assets/images/trash-delete.svg'
+import editPen from "../../../Assets/images/edit-pen.svg";
+import trashDelete from "../../../Assets/images/trash-delete.svg";
+import { dateFormatDbToView } from "../../../Utils/stringFunctions";
 
-const TableEv = ( {dados, data, descricao, fnDelete = null, fnUpdate = null} ) => {
+const TableEv = ({ dados, fnDelete = null, fnUpdate = null }) => {
     return (
         <table className="table-data">
             {/* {cabeçalho} */}
@@ -33,46 +34,56 @@ const TableEv = ( {dados, data, descricao, fnDelete = null, fnUpdate = null} ) =
                 </tr>
             </thead>
 
+            {/*Para poder listar os dados na página, é necessário dar um console.log logo depois do return na EventosPage
+                para poder ver como os dados são chamados lá  no console (qual o nome que aparece lá) para só assim chamar esses */}
             <tbody>
-                {dados.map((tp)=>{
+                {dados.map((tp) => {
                     return (
-                        <tr className="table-data__head-row" key={tp.idTipoEvento}>
-                    <td className="table-data__data table-data__data--big">
-                        {tp.titulo}
-                    </td>
-                    <td className="table-data__data table-data__data--big">
-                        {tp.titulo}
-                    </td>
-                    <td className="table-data__data table-data__data--big">
-                        {tp.descricao}
-                    </td>
-                    <td className="table-data__data table-data__data--big">
-                        {tp.titulo}
-                    </td>
-                    <td className="table-data__data table-data__data--big">
-                        {tp.data}
-                    </td>
+                        <tr className="table-data__head-row">
+                            <td className="table-data__data table-data__data--big">
+                                {tp.nomeEvento}
+                            </td>
+                            <td className="table-data__data table-data__data--big">
+                                {tp.descricao}
+                            </td>
+                            <td className="table-data__data table-data__data--big">
+                                {tp.tiposEvento.titulo}
+                            </td>
+                            <td className="table-data__data table-data__data--big">
+                                {dateFormatDbToView(tp.dataEvento)}
+                            </td>
 
-                    <td className="table-data__data table-data__data--little">
-                        <img className="table-data__icon" src={editPen} alt="" 
-                            onClick={() => {fnUpdate(tp.idTipoEvento)}}
-                        />
-                    </td>
-
-                    <td 
-                        className="table-data__data table-data__data--little"
-                        >
-                            <img 
-                                className="table-data__icon" 
-                                src={trashDelete} alt="" 
-                                onClick={() => {fnDelete(tp.idTipoEvento)}}
+                            <td className="table-data__data table-data__data--little">
+                                <img
+                                    className="table-data__icon"
+                                    src={editPen}
+                                    alt=""
+                                    onClick={(e) => {
+                                        fnUpdate({
+                                            idEvento: tp.idTipoEvento,
+                                            nomeEvento: tp.nomeEvento,
+                                            dataEvento: tp.dataEvento,
+                                            descricao: tp.descricao,
+                                            idInstituicao: tp.idInstituicao,
+                                            idTipoEvento: tp.idTipoEvento,
+                                        });
+                                    }}
                                 />
-                    </td>
-                </tr>
-                    )
+                            </td>
+
+                            <td className="table-data__data table-data__data--little">
+                                <img
+                                    className="table-data__icon"
+                                    src={trashDelete}
+                                    alt=""
+                                    onClick={() => {
+                                        fnDelete(tp.idTipoEvento);
+                                    }}
+                                />
+                            </td>
+                        </tr>
+                    );
                 })}
-                
-                
             </tbody>
         </table>
     );

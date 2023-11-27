@@ -1,17 +1,22 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from '../../context/ThemeContext';
 
-const ProdutoPage = () => {
+const MeusPedidosPage = () => {
 
     const {theme} = useContext(ThemeContext)
 
 
     return (
         <div>
-            <h1>Página de Produtos</h1>            
+            <h1>
+                Meus Pedidos
+            </h1>            
+            <h2>
+                Página Privada
+            </h2>
             <span>{theme}</span>
         </div>
     );
 };
 
-export default ProdutoPage;
+export default MeusPedidosPage;

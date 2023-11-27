@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 
 const Contador = () => {
-    const {contador, setContador} = useState(0) //Aqui eu estou indicando que a const é um contador
+    const [contador, setContador] = useState(0);//dado do componente
 
-    function handleIncrementar() { 
-        setContador (contador + 1)
+    function handleIncrementar() {
+        setContador( contador + 1 );
     }
 
-    
-
-    function handleDecrementar() { 
-
-        setContador(contador === 0 ? 0 : contador - 1)
+    function handleDecrementar() {
+        setContador( contador === 0 ? 0 : contador - 1 )
     }
 
     return (
@@ -20,7 +17,12 @@ const Contador = () => {
 
             <p>{ contador }</p>
 
-            <button onClick={handleIncrementar}>Decrementar</button>
+            <button 
+                onClick={() => {handleIncrementar()}}
+            >
+                Incrementar
+            </button>
+
             <button onClick={handleDecrementar}>Decrementar</button>
         </div>
     );

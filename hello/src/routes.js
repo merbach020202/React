@@ -10,25 +10,13 @@ import MeusPedidos from "./pages/MeusPedidosPage/MeusPedidosPage";
 
 import Nav from "./components/Nav/Nav"
 
-import { ThemeContext } from "./context/ThemeContext";
+// import { ThemeContext } from "./context/ThemeContext";
+// import { useEffect } from "react";
 
-
-const Rotas = () => {
-  
-  const [ theme, setTheme ] = useState('light')
-
-  //Verifica se o sistema está no LocalStorage ou assume o tema light
-  function getThemeLocalStorage() {
-    setTheme( localStorage.getItem("theme") != null ? localStorage.getItem("theme") : "light" )
-  }
-
-
-
-  useState()
+  function Rotas() {
 
   return (
     <BrowserRouter>
-    <ThemeContext.Provider value={{theme, setTheme}}>
     <Nav />
       <Routes>
         <Route element={ <HomePage /> }  path={"/"} exact />
@@ -39,9 +27,8 @@ const Rotas = () => {
         <Route element={ <HomePage /> }  path={"*"} exact /> //O asterisco é para caso o usuário digite 
         qualquer outra coisa vai retornar para a página da HOME
       </Routes>
-      </ThemeContext.Provider>
     </BrowserRouter>
   );
-};
+}
 
 export default Rotas;

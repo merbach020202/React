@@ -5,15 +5,34 @@ import Container from "./components/Container/Container";
 
 import "./App.css";
 import Contador from "./components/Contador/Contador";
-import Rotas from "./routes";
+import Rotas from "./routes"
+import { ThemeContext } from "./context/ThemeContext";
+import { useState,useEffect } from "react";
 
 function App() {
-  // Criar as propriedades titulo, texto, textoLink
-  // passar as propriedades em cada um dios 3 componentes abaixo.
+
+  const [theme, setTheme] = useState("light")
+  const nome = "Eduardo"
+  const produtos = [{idProduto: Math.random(), descricao: "Camiseta regata", preco: 49.99, promo: false},
+  {idProduto: Math.random(), descricao: "Blusa moletom", preco: 119.89, promo: true},
+  {idProduto: Math.random(), descricao: "Camiseta regata", preco: 49.99, promo: false}      
+  ]
+
+  useEffect(() => {
+    const tm = localStorage.getItem("theme");
+    if (tm !== null) {
+      setTheme(tm)
+    } else {
+      setTheme("light")
+    }
+  }, [])
+
   return (
-    <div className="App">
+    <ThemeContext.Provider value={{ theme, setTheme, nome, produtos}}>
+    <div className={`App ${theme === "dark" ? "App-dark" : ""}`}>
       <Rotas />
     </div>
+    </ThemeContext.Provider>
   );
 }
 

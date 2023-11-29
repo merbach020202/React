@@ -10,9 +10,9 @@ const TableEv = ({ dados, fnDelete = null, fnUpdate = null }) => {
             {/* {cabeçalho} */}
             <thead className="table-data__head">
                 <tr className="table-data__head-row">
-                    <th className="table-data__head-title table-data__head-title--big">
+                    {/* <th className="table-data__head-title table-data__head-title--big">
                         Instituição
-                    </th>
+                    </th> */}
                     <th className="table-data__head-title table-data__head-title--big">
                         Evento
                     </th>

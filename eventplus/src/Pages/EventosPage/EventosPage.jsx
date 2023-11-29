@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import './'
+import "./EventosPage.css"
 import Title from "../../Components/Titulo/Title";
 import Container from "../../Components/Container/Container";
 import MainContent from "../../Components/MainContent/MainContent";
@@ -267,7 +267,7 @@ const EventosPage = () => {
               <Title titleText={"Cadastro de Evento"} />
               <ImageIllustrator imageRender={eventoImage} />
               <form
-                className="f-evento"
+                className="ftipo-evento"
                 onSubmit={frmEdit ? handleUpdate : handleSubmit}
               >
                 {!frmEdit ? (

@@ -16,10 +16,10 @@ const Rotas = () => {
             <Header />
                 <Routes>
                     <Route element={<HomePage />} path={"/"} exact/>
-                    <Route element={<TipoEventosPage />} path={"/TipoEventos"}/>
-                    <Route element={<EventosPage />} path={"/Eventos"}/>
-                    <Route element={<LoginPage />} path={"/Login"}/>
-                    <Route element={<TestePage />} path={"/Teste"}/>
+                    <Route element={<TipoEventosPage />} path={"/tipoEventos"}/>
+                    <Route element={<EventosPage />} path={"/eventos"}/>
+                    <Route element={<LoginPage />} path={"/login"}/>
+                    <Route element={<TestePage />} path={"/teste"}/>
                 </Routes>
                 <Footer />
             </BrowserRouter>

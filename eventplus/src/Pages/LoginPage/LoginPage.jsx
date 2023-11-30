@@ -1,9 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import ImageIllustrator from "../../Components/ImageIllustrator/ImageIllustrator";
 import logo from "../../Assets/images/logo-pink.svg";
 import { Input, Button } from "../../Components/FormComponents/FormComponents";
 import loginImage from "../../Assets/images/login.svg"
 import api, {loginResource} from "../../Services/Service"
+import { useNavigate } from "react-router-dom";
 
 import "./LoginPage.css";
 import { UserContext, userDecodeToken } from "../../context/AuthContext";
@@ -12,6 +13,11 @@ import { UserContext, userDecodeToken } from "../../context/AuthContext";
 const LoginPage = () => {    
     const [user, setUser] = useState({email: "edu@admin.com", senha: ""})
     const {userData, setUserData} = useContext(UserContext)
+    const navigate = useNavigate()
+
+    useEffect(() => {
+      if (userData.nome) navigate("/")       
+  }, [userData]) //O userData impede que alguém (quando logado), não acesse a página do Login pela URL
 
 
     async function handleSubmit(e) {
@@ -31,6 +37,7 @@ const LoginPage = () => {
                 setUserData(userFullToken); //guarda o token globalmente
 
                 localStorage.setItem("token", JSON.stringify(userFullToken));
+                navigate("/")//Envia o usuário para a home
 
             } catch (error) {
                 alert("Verifique os dados de conexão com a internet");

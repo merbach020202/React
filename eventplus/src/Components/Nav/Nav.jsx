@@ -25,7 +25,6 @@ const Nav = ({exibeNavbar, setExibeNavbar}) => {
                 <Link to="/" className="navbar__item">Home</Link>
                 <Link className="navbar__item" to="/TipoEventos">Tipos de eventos</Link>
                 <Link className="navbar__item" to="/Eventos">Eventos</Link>
-                <Link className="navbar__item" to="/Login">Login</Link>
                 <Link className="navbar__item" to="/Teste">Testes</Link>
             </div>
 

@@ -23,7 +23,7 @@ const TestePage = () => {
                 potatoClass='margem-acima'
                 />
 
-            <h1>Pagina de Poc`s</h1>
+            {/* <h1>Pagina de Poc`s</h1>
             <h2>Calculator</h2>
 
             <form onSubmit={handleCalcular}>
@@ -59,7 +59,7 @@ const TestePage = () => {
                 <span>
                     Resultado: <strong id="res">{total}</strong>
                 </span>
-            </form>
+            </form> */}
         </div>
     );
 };

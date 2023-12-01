@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Nav.css";
 
 import logoMobile from "../../Assets/images/logo-white.svg";
 import logoDesktop from "../../Assets/images/logo-pink.svg";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../context/AuthContext";
 
-const Nav = ({exibeNavbar, setExibeNavbar}) => {
+const Nav = ({ exibeNavbar, setExibeNavbar }) => {
+    const { userData } = useContext(UserContext);
 
-    console.log(`Exibe o menu? ${exibeNavbar}`);
-    
     return (
         <nav className={`navbar ${exibeNavbar ? "exibeNavbar" : ""}`}>
-            <span className="navbar__close" onClick={() => {setExibeNavbar(false)}}>x</span>
+            <span
+                className="navbar__close"
+                onClick={() => {
+                    setExibeNavbar(false);
+                }}
+            >
+                x
+            </span>
 
             <Link to="/" className="eventlogo">
                 <img
@@ -22,12 +29,26 @@ const Nav = ({exibeNavbar, setExibeNavbar}) => {
             </Link>
 
             <div className="navbar__items-box">
-                <Link to="/" className="navbar__item">Home</Link>
-                <Link className="navbar__item" to="/TipoEventos">Tipos de eventos</Link>
-                <Link className="navbar__item" to="/Eventos">Eventos</Link>
-                <Link className="navbar__item" to="/Teste">Testes</Link>
-            </div>
+                <Link to="/" className="navbar__item">
+                    Home
+                </Link>
 
+                {userData.nome && userData.role === "Administrador" ? (
+                    <>
+                        <Link className="navbar__item" to="/TipoEventos">
+                            Tipos de evento
+                        </Link>
+                        <Link className="navbar__item" to="/Eventos">
+                            Eventos
+                        </Link>
+                    </>
+                ) : userData.nome && userData.role === "Usuario" ? (
+                    <Link className="navbar__item" to="/Eventos">
+                        Eventos Aluno
+                    </Link>
+                ) : null}
+                {/* <Link className="navbar__item" to="/Teste">Testes</Link> */}
+            </div>
         </nav>
     );
 };

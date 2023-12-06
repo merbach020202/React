@@ -5,6 +5,8 @@ using webapi.event_.Repositories;
 
 namespace webapi.event_.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class PresencaEventoController : Controller
     {
         private IPresencasEventoRepository _presencasEventoRepository { get; set; }
@@ -56,6 +58,43 @@ namespace webapi.event_.Controllers
             catch (Exception e)
             {
                 return BadRequest(e.Message);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                _presencasEventoRepository.Deletar(id);
+
+                return NoContent();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet("BuscarPorId/{id}")]
+        public IActionResult GetById(Guid id)
+        {
+            try
+            {
+                try
+                {
+                    return Ok(_presencasEventoRepository.BuscarPorId(id));
+                }
+                catch (Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 

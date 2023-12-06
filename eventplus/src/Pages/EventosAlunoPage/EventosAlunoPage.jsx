@@ -1,124 +1,211 @@
 import React, { useContext, useEffect, useState } from "react";
 import MainContent from "../../Components/MainContent/MainContent";
 import Title from "../../Components/Titulo/Title";
-import Table from "./TableEvA/TableEvA"
+import Table from "./TableEvA/TableEvA";
 import Container from "../../Components/Container/Container";
 import { Select } from "../../Components/FormComponents/FormComponents";
 import Spinner from "../../Components/Spinner/Spinner";
 import Modal from "../../Components/Modal/Modal";
-import api from "../../Services/Service";
+import api, {
+    eventsResource,
+    nextEventResource,
+    myEventsResource,
+    presencesEventsResource,
+} from "../../Services/Service";
 
 import "./EventosAlunoPage.css";
 import { UserContext } from "../../context/AuthContext";
+import { wait } from "@testing-library/user-event/dist/utils";
 
 const EventosAlunoPage = () => {
   // state do menu mobile
   const [exibeNavbar, setExibeNavbar] = useState(false);
-  const [eventos, setEventos] = useState([
-    {IdEvento:"1232", nomeEvento:"eventoLegal", dataEvento:"2023-01-02"},
-    {IdEvento:"1432", nomeEvento:"eventoLegal 2", dataEvento:"2023-02-04"},
-    {IdEvento:"1443", nomeEvento:"eventoLegal 3", dataEvento:"2023-03-05"}
-  ]);
+  const [eventos, setEventos] = useState([]);
   // select mocado
   const [quaisEventos, setQuaisEventos] = useState([
-    { value: 1, text: "Todos os eventos" },
-    { value: 2, text: "Meus eventos" },
+      { value: 1, text: "Todos os eventos" },
+      { value: 2, text: "Meus eventos" },
   ]);
 
-  const [tipoEvento, setTipoEvento] = useState(1); //código do tipo do Evento escolhido
+  const [tipoEvento, setTipoEvento] = useState(); //código do tipo do Evento escolhido
   const [showSpinner, setShowSpinner] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  // recupera os dados globais do usuário
   const { userData, setUserData } = useContext(UserContext);
 
   useEffect(() => {
+      async function loadEventsType() {
+          setShowSpinner(true);
+          setEventos([]); //zera array de eventos
 
-    async function loadEventsType() {
-      if (tipoEvento == 1) {//chamar a api de todos os eventos
-    
-    try {
-      
-    } catch (error) {
-      
-    }
+          if (tipoEvento == "1") {
+              try {
+                  const todosEventos = await api.get(eventsResource);
+                  const meusEventos = await api.get(
+                      `${myEventsResource}/${userData.userId}`
+                  );
+                  const eventosMarcados = verificaPresenca(
+                      todosEventos.data,
+                      meusEventos.data
+                  );
 
-   } else {
-    const eventosExibidos = [{ //Chamar a api de todos os eventos
+                  setEventos(eventosMarcados);
 
-      IdEvento:"1232", nomeEvento:"eventoLegal", dataEvento:"2023-01-02",
-      IdEvento:"1432", nomeEvento:"eventoLegal 2", dataEvento:"2023-02-04",
-      IdEvento:"1443", nomeEvento:"eventoLegal 3", dataEvento:"2023-03-05"
-      
-    }]
-    }
-    setShowSpinner(true)
-    setEventos([])
-    
-   
+                  console.clear();
+                  console.log("todos os eventos");
+                  console.log(todosEventos.data);
+                  console.log("meus eventos");
+                  console.log(meusEventos.data);
+                  console.log("Eventos Marcados");
+                  console.log(eventosMarcados);
+              } catch (error) {
+                  console.log("Erro na Api");
+              }
+          } else if (tipoEvento === "2") {
+              try {
+                  const todosEventos = await api.get(
+                      `${myEventsResource}/${userData.userId}`
+                  );
+                  console.log(todosEventos.data);
 
-    return eventosExibidos
-   }
-    loadEventsType();
-  }, [tipoEvento]);
+                  const arrEventos = [];
 
-  
+                  todosEventos.data.forEach((e) => {
+                      arrEventos.push({ ...e.evento, situacao: e.situacao });
+                  });
+
+                  setEventos(arrEventos);
+              } catch (error) {
+                  console.log("Erro na api");
+              }
+          } else {
+              setEventos([]);
+          }
+          setShowSpinner(false);
+      }
+
+      loadEventsType();
+  }, [tipoEvento, userData.userId]); // Adiciona 'tipoEvento' como dependência para disparar o useEffect sempre que o valor de 'tipoEvento' mudar
+
+  const verificaPresenca = (arrAllEvents, eventsUser) => {
+      for (let x = 0; x < arrAllEvents.length; x++) {
+          //para cada evento principal
+          for (let i = 0; i < eventsUser.length; i++) {
+              //procura a correspondencia em minhas presenças
+              if (
+                  arrAllEvents[x].idEvento === eventsUser[i].evento.idEvento) {
+                  arrAllEvents[x].situacao = true;
+                  arrAllEvents[x].idPresencaEvento = eventsUser[i].idPresencaEvento
+                  break; //para de procurar para o evento principal atual
+              }
+          }
+      }
+      //retorna todos os eventos marcados com a presença do usuário
+      return arrAllEvents;
+  };
 
   // toggle meus eventos ou todos os eventos
   function myEvents(tpEvent) {
-    setTipoEvento(tpEvent);
+      setTipoEvento(tpEvent);
   }
 
   async function loadMyComentary(idComentary) {
-    return "????";
+      return "????";
   }
 
   const showHideModal = () => {
-    setShowModal(showModal ? false : true);
+      setShowModal(showModal ? false : true);
   };
 
   const commentaryRemove = () => {
-    alert("Remover o comentário");
+      alert("Remover o comentário");
   };
 
-  function handleConnect() {
-    alert("Desenvolver a função conectar evento");
+  async function handleConnect(eventId, whatTheFunction, presencaId = null) {
+      if (whatTheFunction === "connect") {
+        try {
+          const promise = await api.post(presencesEventsResource, {
+            situacao : true,
+            idUsuario : userData.userId,
+            idEvento : eventId
+          }          
+          )
+
+          if (promise.status === 201) {
+            loadEventsType()
+            alert("Presença confirmada, parabéns")
+          }
+          setTipoEvento("1")
+          const todosEventos = api.get(eventsResource)
+          setEventos(todosEventos.data)
+
+        } catch (error) {
+          
+        }
+
+          return;
+      }
+      
+      console.clear()
+      console.log(`
+      
+      DESCONECTAR
+      ${whatTheFunction}
+      ${presencaId}
+
+      `);    
+
+
+
+      try {
+        const unconnect = await api.delete(`${presencesEventsResource}/${presencaId}`)
+        if (unconnect.status === 204) {
+          alert("DESCONECTADO DO EVENTO")
+        }
+      } catch (error) {
+        
+      }
   }
+  loadEventsType()
+  
+  
   return (
-    <>
-      <MainContent>
-        <Container>
-          <Title titleText={"Eventos"} className="custom-title" />
+      <>
+          <MainContent>
+              <Container>
+                  <Title titleText={"Eventos"} className="custom-title" />
 
-          <Select
-            id="id-tipo-evento"
-            name="tipo-evento"
-            required={true}
-            options={quaisEventos} // aqui o array dos tipos
-            manipulationFunction={(e) => myEvents(e.target.value)}
-            defaultValue={tipoEvento}
-            addtionalClass="select-tp-evento"
-          />
-          <Table
-            dados={eventos}
-            fnConnect={handleConnect}
-            fnShowModal={() => {
-              showHideModal();
-            }}
-          />
-        </Container>
-      </MainContent>
+                  <Select
+                      id="id-tipo-evento"
+                      name="tipo-evento"
+                      required={true}
+                      options={quaisEventos} // aqui o array dos tipos
+                      manipulationFunction={(e) => myEvents(e.target.value)} // aqui só a variável state
+                      defaultValue={tipoEvento}
+                      className="select-tp-evento"
+                  />
+                  <Table
+                      dados={eventos}
+                      fnConnect={handleConnect}
+                      fnShowModal={() => {
+                          showHideModal();
+                      }}
+                  />
+              </Container>
+          </MainContent>
 
-      {/* SPINNER -Feito com position */}
-      {showSpinner ? <Spinner /> : null}
+          {/* SPINNER -Feito com position */}
+          {showSpinner ? <Spinner /> : null}
 
-      {showModal ? (
-        <Modal
-          userId={userData.userId}
-          showHideModal={showHideModal}
-          fnDelete={commentaryRemove}
-        />
-      ) : null}
-    </>
+          {showModal ? (
+              <Modal
+                  userId={userData.userId}
+                  showHideModal={showHideModal}
+                  fnDelete={commentaryRemove}
+              />
+          ) : null}
+      </>
   );
 };
 

@@ -15,11 +15,10 @@ import api, {
 
 import "./EventosAlunoPage.css";
 import { UserContext } from "../../context/AuthContext";
-import { wait } from "@testing-library/user-event/dist/utils";
+// import { wait } from "@testing-library/user-event/dist/utils";
 
 const EventosAlunoPage = () => {
   // state do menu mobile
-  const [exibeNavbar, setExibeNavbar] = useState(false);
   const [eventos, setEventos] = useState([]);
   // select mocado
   const [quaisEventos, setQuaisEventos] = useState([
@@ -27,7 +26,7 @@ const EventosAlunoPage = () => {
       { value: 2, text: "Meus eventos" },
   ]);
 
-  const [tipoEvento, setTipoEvento] = useState(); //código do tipo do Evento escolhido
+  const [tipoEvento, setTipoEvento] = useState("1"); //código do tipo do Evento escolhido
   const [showSpinner, setShowSpinner] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -35,7 +34,11 @@ const EventosAlunoPage = () => {
   const { userData, setUserData } = useContext(UserContext);
 
   useEffect(() => {
-      async function loadEventsType() {
+      
+    loadEventsType();
+  }, [tipoEvento, userData.userId]); // Adiciona 'tipoEvento' como dependência para disparar o useEffect sempre que o valor de 'tipoEvento' mudar
+
+  async function loadEventsType() {
           setShowSpinner(true);
           setEventos([]); //zera array de eventos
 
@@ -67,12 +70,14 @@ const EventosAlunoPage = () => {
                   const todosEventos = await api.get(
                       `${myEventsResource}/${userData.userId}`
                   );
+                  console.clear();
+                  console.log("MINHAS PRESENÇAS");
                   console.log(todosEventos.data);
 
                   const arrEventos = [];
 
                   todosEventos.data.forEach((e) => {
-                      arrEventos.push({ ...e.evento, situacao: e.situacao });
+                      arrEventos.push({ ...e.evento, situacao: e.situacao, idPresencaEvento: e.idPresencaEvento });
                   });
 
                   setEventos(arrEventos);
@@ -84,9 +89,6 @@ const EventosAlunoPage = () => {
           }
           setShowSpinner(false);
       }
-
-      loadEventsType();
-  }, [tipoEvento, userData.userId]); // Adiciona 'tipoEvento' como dependência para disparar o useEffect sempre que o valor de 'tipoEvento' mudar
 
   const verificaPresenca = (arrAllEvents, eventsUser) => {
       for (let x = 0; x < arrAllEvents.length; x++) {
@@ -110,14 +112,21 @@ const EventosAlunoPage = () => {
       setTipoEvento(tpEvent);
   }
 
-  async function loadMyComentary(idComentary) {
-      return "????";
-  }
-
   const showHideModal = () => {
       setShowModal(showModal ? false : true);
   };
 
+  //Traz o comentário, lista ele
+  const loadMyCommentary = () => {
+      alert("Remover o comentário");
+  };
+
+  //Cadastra o comentário
+  const postMyCommentary = () => {
+      alert("Remover o comentário");
+  };
+
+  //Deleta o comentário
   const commentaryRemove = () => {
       alert("Remover o comentário");
   };
@@ -129,8 +138,7 @@ const EventosAlunoPage = () => {
             situacao : true,
             idUsuario : userData.userId,
             idEvento : eventId
-          }          
-          )
+          })
 
           if (promise.status === 201) {
             loadEventsType()
@@ -146,30 +154,20 @@ const EventosAlunoPage = () => {
 
           return;
       }
-      
-      console.clear()
-      console.log(`
-      
-      DESCONECTAR
-      ${whatTheFunction}
-      ${presencaId}
-
-      `);    
-
-
 
       try {
         const unconnect = await api.delete(`${presencesEventsResource}/${presencaId}`)
         if (unconnect.status === 204) {
+            loadEventsType();
           alert("DESCONECTADO DO EVENTO")
         }
       } catch (error) {
-        
+        console.log("ERRO AO DESCONECTAR O USUÁRIO DO EVENTO");
+        console.log(error);
       }
   }
-  loadEventsType()
-  
-  
+
+ 
   return (
       <>
           <MainContent>
@@ -183,7 +181,7 @@ const EventosAlunoPage = () => {
                       options={quaisEventos} // aqui o array dos tipos
                       manipulationFunction={(e) => myEvents(e.target.value)} // aqui só a variável state
                       defaultValue={tipoEvento}
-                      className="select-tp-evento"
+                      addtionalClass="select-tp-evento"
                   />
                   <Table
                       dados={eventos}
@@ -202,6 +200,8 @@ const EventosAlunoPage = () => {
               <Modal
                   userId={userData.userId}
                   showHideModal={showHideModal}
+                  fnGet={loadMyCommentary}
+                  fnPost={postMyCommentary}
                   fnDelete={commentaryRemove}
               />
           ) : null}

@@ -37,13 +37,13 @@ export const Label = ({htmlFor, labelText}) => {
     );
 }
 
-export const Select = ({required, id, name, options, manipulationFunction, addtionalClass = "", value}) => {
+export const Select = ({required, id, name, options, manipulationFunction, addtionalClass = "", defaultValue}) => {
     return(
         <select 
         name={name} 
         id={id} 
         required={required} 
-        value={value}
+        value={defaultValue}
         onChange={manipulationFunction}
         className={`input-component ${addtionalClass}`}>
             

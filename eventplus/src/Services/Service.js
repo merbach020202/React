@@ -11,6 +11,8 @@ export const eventsTypeResource = '/TiposEvento'
 
 export const myEventsResource = '/PresencaEvento/ListarMinhas'
 
+export const commentaryEventsResource = '/ComentariosEvento'
+
 export const presencesEventsResource = '/PresencaEvento'
 
 export const loginResource = "/Login"

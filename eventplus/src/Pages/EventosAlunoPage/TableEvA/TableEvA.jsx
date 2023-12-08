@@ -34,26 +34,13 @@ const Table = ({ dados, fnConnect = null, fnShowModal = null }) => {
       </thead>
       <tbody>
         {dados.map((e) => {
+
           return (
             <tr className="tbal-data__head-row" key={Math.random()}>
               <td className="tbal-data__data tbal-data__data--big">
                 {e.nomeEvento}
               </td>
-              {/* <td
-                className="tbal-data__data tbal-data__data--big tbal-data__data--handover"
-                data-tooltip-id="description-tooltip"
-                data-tooltip-content={e.descricao}
-                data-tooltip-place="top"
-              >
-                {e.descricao.substr(0, 15)} ...
-                <Tooltip
-                  id="description-tooltip"
-                  className="custom-tootip"
-                />
-              </td> */}
-              {/* <td className="tbal-data__data tbal-data__data--big">
-                {e.tiposEvento.titulo}
-              </td> */}
+
               <td className="tbal-data__data tbal-data__data--big tbal-data__btn-actions">
                 {/* {e.dataEvento} */}
                 {dateFormatDbToView(e.dataEvento)}
@@ -62,10 +49,10 @@ const Table = ({ dados, fnConnect = null, fnShowModal = null }) => {
               <td className="tbal-data__data tbal-data__data--big tbal-data__btn-actions">
                 <img
                   className="tbal-data__icon"
-                  idevento={e.idEvento}
+                  // idevento={e.idEvento}
                   src={comentaryIcon}
                   alt=""
-                  onClick={fnShowModal}
+                  onClick={() => {fnShowModal(e.idEvento)}}
                 />
 
                 <ToggleSwitch toggleActive={e.situacao} manipulationFunction={ () => { 
@@ -78,6 +65,7 @@ const Table = ({ dados, fnConnect = null, fnShowModal = null }) => {
               </td>
             </tr>
           );
+
         })}
       </tbody>
     </table>

@@ -23,13 +23,14 @@ export const loginResource = "/Login"
 // export const eventsTypeResource
 
 
-const apiPort = '7118'
-const localApiUrl = `https://localhost:${apiPort}/api`
-const externalApiUrl = null
+// const apiPort = '7118'
+// const localApiUrl = `https://localhost:${apiPort}/api`
+const externalApiUri = `https://eventwebapi-eduardo.azurewebsites.net`
+// const externalApiUrl = null
 
 
 const api = axios.create({
-    baseURL: localApiUrl
+    baseURL: externalApiUri
 })
 
 export default api

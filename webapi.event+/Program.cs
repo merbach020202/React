@@ -116,7 +116,7 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod();
         });
 });
-
+    
 //Configuração do serviço de moderação de conteúdo - Azure
 
 builder.Services.AddSingleton(provider => new ContentModeratorClient(

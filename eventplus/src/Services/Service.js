@@ -17,6 +17,7 @@ export const presencesEventsResource = '/PresencaEvento'
 
 export const loginResource = "/Login"
 
+export const detailsResource = "/detalhes-evento"
 
 
 

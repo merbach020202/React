@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Button from "../../Components/Botão/Button";
 import Input from "../../Components/Input/Input";
 import Title from "../../Components/Titulo/Title";
@@ -13,6 +14,14 @@ const TestePage = () => {
         e.preventDefault();
         setTotal(parseFloat(n1) + parseFloat(n2));
     }
+
+// const teste = () => {
+//     const {idEvento} = useParams()
+
+//     useEffect(() => {
+//         alert("UseEffect, fazendo get do evento" + idEvento)
+//     }, [])
+// }
 
     
 

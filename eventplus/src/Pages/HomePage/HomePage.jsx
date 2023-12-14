@@ -10,6 +10,7 @@ import NextEvent from "../../Components/NextEvent/NextEvent";
 import Container from "../../Components/Container/Container";
 import api from "../../Services/Service";
 import Notification from "../../Components/Notification/Notification";
+import { Link } from "react-router-dom";
 
 import { nextEventResource } from "../../Services/Service";
 
@@ -39,6 +40,8 @@ const HomePage = () => {
     return (
             <MainContent>
                 {<Notification {...notifyUser} setNotifyUser={setNotifyUser}/>}
+
+                {/* <Link to={`/teste/${e.idEvento}`}>Visualizar</Link> */}
 
                 <Banner />
                 <section className="proximos-eventos">

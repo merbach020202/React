@@ -10,43 +10,36 @@ import TipoEventosPage from "../Pages/TipoEventosPage/TipoEventosPage";
 import Footer from "../Components/Footer/Footer";
 import { PrivateRoute } from "./PrivateRoute";
 import EventosAlunoPage from "../Pages/EventosAlunoPage/EventosAlunoPage";
+import DetalhesEventoPage from "../Pages/DetalhesEventoPage/DetalhesEventoPage";
 
 const Rotas = () => {
     return (
         <BrowserRouter>
             <Header />
             <Routes>
+
                 <Route element={<HomePage />} path={"/"} exact />
 
                 <Route
                     path="/tipoEventos"
-                    element={
-                        <PrivateRoute redirectTo="/">
-                            <TipoEventosPage />
-                        </PrivateRoute>
-                    }
-                />
+                    element={<PrivateRoute redirectTo="/"><TipoEventosPage /></PrivateRoute>} />
 
                 <Route
                     path="/eventos"
-                    element={
-                        <PrivateRoute redirectTo="/">
-                            <EventosPage />
-                        </PrivateRoute>
-                    }
-                />
+                    element={<PrivateRoute redirectTo="/"><EventosPage /></PrivateRoute>} />
 
                 <Route
                     path="/eventos-aluno"
-                    element={
-                        <PrivateRoute redirectTo="/">
-                            <EventosAlunoPage />
-                        </PrivateRoute>
-                    }
+                    element={<PrivateRoute redirectTo="/"><EventosAlunoPage/></PrivateRoute>}
                 />
 
+        {/* Rotas privadas */}
                 <Route element={<LoginPage />} path={"/login"} />
+
+                <Route element={<DetalhesEventoPage />} path={"/detalhes-evento"} />
+
                 <Route element={<TestePage />} path={"/teste"} />
+
             </Routes>
             <Footer />
         </BrowserRouter>

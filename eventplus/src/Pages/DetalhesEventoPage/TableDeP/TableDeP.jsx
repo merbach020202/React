@@ -1,13 +1,8 @@
 import React from "react";
-import comentaryIcon from "../../../Assets/images/comentary-icon.svg";
-// import trashDelete from "../../../Assets/images/trash-delete.svg";
 import { dateFormatDbToView } from "../../../Utils/stringFunctions";
-import ToggleSwitch from "../../../Components/Toggle/Toggle";
-// importa a biblioteca de tootips ()
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 
-// import trashDelete from "../../../assets/images/trash-delete.svg";
 import "./TableDeP.css";
 
 const TableDeP = ({ dados, fnConnect = null, fnShowModal = null }) => {
@@ -18,12 +13,6 @@ const TableDeP = ({ dados, fnConnect = null, fnShowModal = null }) => {
           <th className="tbal-data__head-title tbal-data__head-title--big">
             Evento
           </th>
-          {/* <th className="tbal-data__head-title tbal-data__head-title--big">
-            Descrição
-          </th> */}
-          {/* <th className="tbal-data__head-title tbal-data__head-title--big">
-            Tipo
-          </th> */}
           <th className="tbal-data__head-title tbal-data__head-title--big">
             Data
           </th>
@@ -54,7 +43,7 @@ const TableDeP = ({ dados, fnConnect = null, fnShowModal = null }) => {
               </td>
 
               <td className="tbal-data__data tbal-data__data--big tbal-data__btn-actions">
-                <p>Precisa inserir o nome</p>
+                <p>Passar o nome</p>
               </td>
             </tr>
           );

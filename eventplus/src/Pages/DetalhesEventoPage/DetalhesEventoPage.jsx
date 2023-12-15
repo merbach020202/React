@@ -201,9 +201,9 @@ const DetalhesEventoPage = () => {
         <>
             <MainContent>
                 <Container>
-                    <Title titleText={"Eventos"} className="custom-title" />
+                    <Title titleText={"Detalhes eventos"} className="custom-title" />
 
-                    <Select
+                    {/* <Select
                         id="id-tipo-evento"
                         name="tipo-evento"
                         required={true}
@@ -211,7 +211,7 @@ const DetalhesEventoPage = () => {
                         manipulationFunction={(e) => myEvents(e.target.value)} // aqui só a variável state
                         defaultValue={tipoEvento}
                         addtionalClass="select-tp-evento"
-                    />
+                    /> */}
                     <Table
                         dados={eventos}
                         fnConnect={handleConnect}

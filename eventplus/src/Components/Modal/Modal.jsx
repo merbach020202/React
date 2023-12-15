@@ -8,24 +8,28 @@ import "./Modal.css";
 const Modal = ({
   modalTitle = "Feedback",
   comentaryText = "Não informado.",
+  userId = null,
   showHideModal = false,
   fnDelete = null,
   fnGet = null,
   fnPost = null,
 
 }) => {
-  const {userData} = useContext(UserContext)
+  
   const [ comentarioDesc , setComentarioDesc ] = useState("")
+  
+  const {userData} = useContext(UserContext);
 
-  useEffect(() => {
+  console.log(userData);
+  
+  useEffect( () => {
     async function carregarDados() {
-      fnGet(userData.userId, userData.idEvento)
+      fnGet(userData.userId, userData.idEvento);
     }
-
-    carregarDados()
+    carregarDados();
   }, [])
   
-
+  
   return (
     <div className="modal">
       <article className="modal__box">
@@ -41,7 +45,7 @@ const Modal = ({
             src={trashDelete}
             className="comentary__icon-delete"
             alt="Ícone de uma lixeira"
-            onClick={() => {fnDelete()}}
+            onClick={ () => {fnDelete()}}
           />
 
           <p className="comentary__text">{comentaryText}</p>
@@ -50,20 +54,18 @@ const Modal = ({
         </div>
 
         <Input
-          placeholder="Escreva seu comentário..."
-          addtionalClass="comentary__entry"
+          placeholdder={"Escreva seu comentario..."}
+          className="comentary__entry"
           value={comentarioDesc}
           manipulationFunction={(e) => {
-          setComentarioDesc (e.target.value)
+            setComentarioDesc(e.target.value)
           }}
         />
 
         <Button
           textButton="Comentar"
           additionalClass="comentary__button"
-          manipulationFunction={() => {
-            fnPost(comentarioDesc.trim(), userData.userId, userData.idEvento)
-          }}
+          manipulationFunction={() => {fnPost(comentarioDesc.trim(), userData.userId, userData.idEvento)}}
         />
       </article>
     </div>
